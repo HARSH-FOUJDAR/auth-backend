@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
 const sendEmail = require("../utils/sendEmail");
 const jwt = require("jsonwebtoken");
+const { log } = require("console");
 exports.forgotPassword = async (req, res) => {
   try {
     const { email } = req.body;
@@ -24,7 +25,7 @@ exports.forgotPassword = async (req, res) => {
 
     await user.save();
 
-    const resetLink = `http://localhost:5173/reset-password/${resetToken}`;
+    const resetLink = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
 
     await sendEmail(email, resetLink);
 
@@ -71,6 +72,7 @@ exports.resetPassword = async (req, res) => {
     res.json({
       message: "Password reset successfully",
     });
+    console.log("Password reset successfully for user:", user.email);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Server error" });
