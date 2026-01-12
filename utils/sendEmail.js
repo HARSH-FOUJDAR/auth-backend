@@ -1,5 +1,5 @@
 const nodemailer = require("nodemailer");
-const resetPasswordEmailTemplate = require("./otpEmailTemplate");
+const resetPasswordEmailTemplate = require('./otpEmailTemplate')
 
 const sendResetEmail = async (email, resetLink) => {
   try {
