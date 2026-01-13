@@ -1,7 +1,7 @@
 const nodemailer = require("nodemailer");
-const resetPasswordEmailTemplate = require('./otpEmailTemplate')
+const resetPasswordEmailTemplate = require("./otpEmailTemplate");
 
-const sendResetEmail = async (email, resetLink) => {
+const sendEmail = async (email, resetLink) => {
   try {
     const transporter = nodemailer.createTransport({
       service: "gmail",
@@ -11,17 +11,20 @@ const sendResetEmail = async (email, resetLink) => {
       },
     });
 
+    await transporter.verify();
+    console.log("✅ Gmail transporter ready");
+
     await transporter.sendMail({
       from: `"Harsh Foujdar" <${process.env.EMAIL}>`,
       to: email,
-      subject: "Reset Your Password pls open the link Dextop",
+      subject: "Reset Your Password",
       html: resetPasswordEmailTemplate(resetLink, "Harsh Foujdar"),
     });
 
-    console.log("Reset link email sent successfully");
+    console.log("✅ Reset email sent");
   } catch (error) {
-    console.error("Email sending error:", error);
+    console.error("❌ Email sending error:", error);
   }
 };
 
-module.exports = sendResetEmail;
+module.exports = sendEmail;

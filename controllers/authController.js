@@ -4,9 +4,11 @@ const crypto = require("crypto");
 const sendEmail = require("../utils/sendEmail");
 const jwt = require("jsonwebtoken");
 exports.forgotPassword = async (req, res) => {
+    console.log("clicked");
   try {
     const { email } = req.body;
-
+ 
+   
     const user = await User.findOne({ email });
 
     //  Same response for security
@@ -24,7 +26,7 @@ exports.forgotPassword = async (req, res) => {
 
     await user.save();
 
-    const resetLink = `http://localhost:5173/reset-password/${resetToken}`;
+    const resetLink = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
 
     await sendEmail(email, resetLink);
 
@@ -32,8 +34,9 @@ exports.forgotPassword = async (req, res) => {
       message: "Password reset link sent",
     });
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
     res.status(500).json({ message: "Server error" });
+
   }
 };
 
@@ -71,7 +74,7 @@ exports.resetPassword = async (req, res) => {
     res.json({
       message: "Password reset successfully",
     });
-    log;
+  
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Server error" });
