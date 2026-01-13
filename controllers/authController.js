@@ -3,12 +3,13 @@ const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
 const sendEmail = require("../utils/sendEmail");
 const jwt = require("jsonwebtoken");
+
+
 exports.forgotPassword = async (req, res) => {
     console.log("clicked");
   try {
     const { email } = req.body;
  
-   
     const user = await User.findOne({ email });
 
     //  Same response for security

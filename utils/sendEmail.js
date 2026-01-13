@@ -1,35 +1,27 @@
 const nodemailer = require("nodemailer");
+const resetPasswordEmailTemplate = require("./otpEmailTemplate");
 
 const sendEmail = async (email, resetLink) => {
   try {
-    console.log("📩 Email function called");
-    console.log("➡️ To:", email);
-    console.log("➡️ Link:", resetLink);
-    console.log("➡️ From ENV:", process.env.EMAIL ? "OK" : "MISSING");
-    console.log("➡️ Pass ENV:", process.env.EMAIL_PASS ? "OK" : "MISSING");
-
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: "smtp.sendgrid.net",
+      port: 587,
       auth: {
-        user: process.env.EMAIL,
-        pass: process.env.EMAIL_PASS,
+        user: "apikey", // fixed
+        pass: process.env.SENDGRID_API_KEY, // Render ENV
       },
     });
 
-    await transporter.verify();
-    console.log("✅ Gmail transporter VERIFIED");
-
     await transporter.sendMail({
-      from: process.env.EMAIL,
+      from: `"Harsh Foujdar" <codingwithharshfoujdar@gmail.com>`,
       to: email,
-      subject: "TEST RESET EMAIL",
-      text: `Reset link: ${resetLink}`,
+      subject: "Reset Your Password",
+      html: resetPasswordEmailTemplate(resetLink, "Harsh Foujdar"),
     });
 
-    console.log("✅ EMAIL SENT SUCCESSFULLY");
+    console.log("✅ Reset link email sent successfully");
   } catch (error) {
-    console.log("❌ EMAIL ERROR MESSAGE:", error.message);
-    console.log("❌ EMAIL ERROR STACK:", error.stack);
+    console.log("❌ Email sending error:", error.message);
   }
 };
 
