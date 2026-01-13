@@ -7,7 +7,7 @@ const sendEmail = async (email, resetLink) => {
   try {
     const msg = {
       to: email,
-      from: "codingwithharshfoujdar@gmail.com", // verified sender in SendGrid
+      from: "codingwithharshfoujdar@gmail.com", 
       subject: "Reset Your Password",
       html: resetPasswordEmailTemplate(resetLink, "Harsh Foujdar"),
     };
