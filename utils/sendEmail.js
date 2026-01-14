@@ -3,26 +3,26 @@ const resetPasswordEmailTemplate = require("./otpEmailTemplate");
 
 const sendEmail = async (email, resetLink) => {
   try {
+    // 1️⃣ Transporter (Gmail)
     const transporter = nodemailer.createTransport({
-      host: "smtp-relay.brevo.com",
-      port: 587,
-      secure: false,
+      service: "gmail",
       auth: {
-        user: process.env.EMAIL, // verified sender email
-        pass: process.env.EMAIL_PASS, // ✅ Brevo SMTP KEY
+        user: process.env.EMAIL,      // your gmail id
+        pass: process.env.EMAIL_PASS // Gmail App Password
       },
     });
 
+    // 2️⃣ Send mail
     await transporter.sendMail({
       from: `"Harsh Foujdar" <${process.env.EMAIL}>`,
       to: email,
-      subject: "Reset Your Password pls open the link Dextop",
+      subject: "Reset Your Password",
       html: resetPasswordEmailTemplate(resetLink, "Harsh Foujdar"),
     });
 
-    console.log("Reset link email sent successfully");
+    console.log("✅ Email sent successfully");
   } catch (error) {
-    console.error("Email sending error:", error);
+    console.error("❌ Email sending error:", error.message);
   }
 };
 
