@@ -1,21 +1,28 @@
-const sgMail = require("@sendgrid/mail");
+const nodemailer = require("nodemailer");
 const resetPasswordEmailTemplate = require("./otpEmailTemplate");
-
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const sendEmail = async (email, resetLink) => {
   try {
-    const msg = {
-      to: email,
-      from: "codingwithharshfoujdar@gmail.com", 
-      subject: "Reset Your Password",
-      html: resetPasswordEmailTemplate(resetLink, "Harsh Foujdar"),
-    };
+    const transporter = nodemailer.createTransport({
+      host: "smtp-relay.brevo.com",
+      port: 587,
+      secure: false,
+      auth: {
+        user: process.env.EMAIL, // verified sender email
+        pass: process.env.EMAIL_PASS, // ✅ Brevo SMTP KEY
+      },
+    });
 
-    await sgMail.send(msg);
-    console.log("✅ Reset link email sent successfully");
+    await transporter.sendMail({
+      from: `"Harsh Foujdar" <${process.env.EMAIL}>`,
+      to: email,
+      subject: "Reset Your Password pls open the link Dextop",
+      html: resetPasswordEmailTemplate(resetLink, "Harsh Foujdar"),
+    });
+
+    console.log("Reset link email sent successfully");
   } catch (error) {
-    console.log("❌ Email sending error:", error.message);
+    console.error("Email sending error:", error);
   }
 };
 
