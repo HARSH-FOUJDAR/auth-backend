@@ -10,10 +10,13 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: true,
+    origin: "https://celebrated-biscuit-bc6d52.netlify.app",
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
 
 
 app.use(express.urlencoded({ extended: true }));
