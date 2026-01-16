@@ -23,7 +23,7 @@ app.options("*", cors());
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
-  res.json({ message: "Cors is working" });
+  res.json({ message: "Cors is working harsh" });
 });
 
 const authRouter = require("./routes/authRoutes");
