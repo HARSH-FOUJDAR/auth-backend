@@ -10,7 +10,7 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin:"https://celebrated-biscuit-bc6d52.netlify.app",
+    origin: true,
     credentials: true,
   })
 );
