@@ -12,7 +12,7 @@ router.post("/resetpassword/:token", authController.resetPassword);
 // Signup
 router.post("/signup", authController.signupPost);
 //Login
-router.post("/Login", authController.PostLogin);
+router.post("/login", authController.PostLogin);
 //Logout
 router.post("/logout", authController.logoutPost);
 module.exports = router;
