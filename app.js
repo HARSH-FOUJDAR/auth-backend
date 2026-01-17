@@ -20,14 +20,14 @@ app.use(cors({
 }));
 
 
-let isConnected = false;
+
 
 app.use(async (req, res, next) => {
   try {
     if (!isConnected) {
       await Database();
       isConnected = true;
-      console.log(" MongoDB Connected");
+      console.log("MongoDB Connected");
     }
     next();
   } catch (error) {
@@ -35,23 +35,11 @@ app.use(async (req, res, next) => {
     res.status(500).json({ message: "Database connection failed" });
   }
 });
-
+Database();
 app.get("/", (req, res) => {
   res.json({ message: "Server is running & CORS is working" });
 });
 
-// DB status check
-app.get("/db-test", (req, res) => {
-  const state = mongoose.connection.readyState;
-
-  if (state === 1) {
-    res.json({ message: "Database Connected" });
-  } else {
-    res.json({ message: "Database NOT Connected", state });
-  }
-});
-
- 
 const authRouter = require("./routes/authRoutes");
 app.use("/auth", authRouter);
 
