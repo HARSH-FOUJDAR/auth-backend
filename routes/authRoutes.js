@@ -7,7 +7,7 @@ const authController = require("../controllers/authController");
 router.post("/forgotpassword", authController.forgotPassword);
 
 //  Reset password using token
-router.post("/resetpassword/:token", authController.resetPassword);
+router.post("/reset-password/:token", authController.resetPassword);
 
 // Signup
 router.post("/signup", authController.signupPost);
